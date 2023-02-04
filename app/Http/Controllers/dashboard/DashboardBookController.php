@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
-use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Publisher;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class BookController extends Controller
+class DashboardBookController extends Controller
 {
     public function index()
     {
         return view('book.all', [
-            'books' => Book::all()
+            'books' => Book::paginate(5)
         ]);
     }
 
@@ -41,13 +41,13 @@ class BookController extends Controller
         ]);
 
         Book::create($validateData);
-        return redirect('/dashboard/book/all')->with('success', 'Book has been addes !');
+        return redirect('/book/all')->with('success', 'Book has been addes !');
     }
 
     public function destroy(Book $book)
     {
         Book::destroy($book->id);
-        return redirect('/dashboard/book/all')->with('success', 'Data has been deleted');
+        return redirect('/dahboard/book/all')->with('success', 'Data has been deleted');
     }
 
     public function edit(Book $book)
@@ -71,6 +71,6 @@ class BookController extends Controller
         Book::where('id', $book->id)
             ->update($validateData);
 
-        return redirect('/dashboard/book/all')->with('success', 'Data has been updated !');
+        return redirect('/book/all')->with('success', 'Data has been updated !');
     }
 }
